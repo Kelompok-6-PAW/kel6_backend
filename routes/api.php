@@ -24,6 +24,12 @@ Route::post('pesantopup', 'Api\PesanTopUpController@store');
 Route::put('pesantopup/{id}', 'Api\PesanTopUpController@update');
 Route::delete('pesantopup/{id}', 'Api\PesanTopUpController@destroy');
 
+Route::get('berlangganan', 'Api\BerlanggananController@index');
+Route::get('berlangganan/{id}', 'Api\BerlanggananController@show');
+Route::post('berlangganan', 'Api\BerlanggananController@store');
+Route::put('berlangganan/{id}', 'Api\BerlanggananController@update');
+Route::delete('berlangganan/{id}', 'Api\BerlanggananController@destroy');
+
 Route::get('tambahnominal', 'Api\TambahNominalController@index');
 Route::get('tambahnominal/{id}', 'Api\TambahNominalController@show');
 Route::post('tambahnominal', 'Api\TambahNominalController@store');
