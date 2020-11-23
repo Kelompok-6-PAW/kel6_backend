@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'username', 'email', 'password','jenisKelamin','tglLahir'
     ];
 
     /**
@@ -36,4 +36,15 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    public function getCreatedAtAttribute(){
+        if(!is_null($this->attributes['created_at'])){
+            return Carbon::parse($this->attributes['created_at'])->format('Y-m-d H:i:s');
+        }
+    }// convert atribute created_at ke format Y-m-d H:i:s
+
+    public function getUpdatedAtAttribute(){
+        if(!is_null($this->attributes['updated_at'])){
+            return Carbon::parse($this->attributes['updated_at'])->format('Y-m-d H:i:s');
+        }
+    }
 }

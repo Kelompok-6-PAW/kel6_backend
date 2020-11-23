@@ -14,9 +14,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::middleware('auth:api')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
+Route::middleware('auth:api')->get('/user', function (Request $request) {
+    return $request->user();
+});
+
+Route::get('init','Api\AppController@init');
+
+Route::post('register','Api\AppController@register');
+Route::post('login','Api\AppController@login');
+Route::post('logout','Api\AppController@logout');
 
 Route::get('pesantopup', 'Api\PesanTopUpController@index');
 Route::get('pesantopup/{id}', 'Api\PesanTopUpController@show');
@@ -35,3 +41,4 @@ Route::get('tambahnominal/{id}', 'Api\TambahNominalController@show');
 Route::post('tambahnominal', 'Api\TambahNominalController@store');
 Route::put('tambahnominal/{id}', 'Api\TambahNominalController@update');
 Route::delete('tambahnominal/{id}', 'Api\TambahNominalController@destroy');
+
