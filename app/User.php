@@ -5,10 +5,12 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Passport\HasApiTokens; //import kelas hasApiTokens dari library passport yang udah diinstal
+use Carbon\Carbon;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use Notifiable,HasApiTokens;
 
     /**
      * The attributes that are mass assignable.
@@ -46,5 +48,5 @@ class User extends Authenticatable
         if(!is_null($this->attributes['updated_at'])){
             return Carbon::parse($this->attributes['updated_at'])->format('Y-m-d H:i:s');
         }
-    }
+    }// convert atribute updated_at ke format Y-m-d H:i:s
 }

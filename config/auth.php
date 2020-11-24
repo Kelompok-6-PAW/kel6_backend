@@ -42,9 +42,8 @@ return [
         ],
 
         'api' => [
-            'driver' => 'token',
+            'driver' => 'passport',//agar proses authentication dapatdi-handle oleh Passport. 
             'provider' => 'users',
-            'hash' => false,
         ],
     ],
 

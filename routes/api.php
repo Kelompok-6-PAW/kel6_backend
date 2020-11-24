@@ -18,27 +18,28 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('init','Api\AppController@init');
+Route::post('register','Api\AuthController@register');
+Route::post('login','Api\AuthController@login');
 
-Route::post('register','Api\AppController@register');
-Route::post('login','Api\AppController@login');
-Route::post('logout','Api\AppController@logout');
-
-Route::get('pesantopup', 'Api\PesanTopUpController@index');
-Route::get('pesantopup/{id}', 'Api\PesanTopUpController@show');
-Route::post('pesantopup', 'Api\PesanTopUpController@store');
-Route::put('pesantopup/{id}', 'Api\PesanTopUpController@update');
-Route::delete('pesantopup/{id}', 'Api\PesanTopUpController@destroy');
-
-Route::get('berlangganan', 'Api\BerlanggananController@index');
-Route::get('berlangganan/{id}', 'Api\BerlanggananController@show');
-Route::post('berlangganan', 'Api\BerlanggananController@store');
-Route::put('berlangganan/{id}', 'Api\BerlanggananController@update');
-Route::delete('berlangganan/{id}', 'Api\BerlanggananController@destroy');
-
-Route::get('tambahnominal', 'Api\TambahNominalController@index');
-Route::get('tambahnominal/{id}', 'Api\TambahNominalController@show');
-Route::post('tambahnominal', 'Api\TambahNominalController@store');
-Route::put('tambahnominal/{id}', 'Api\TambahNominalController@update');
-Route::delete('tambahnominal/{id}', 'Api\TambahNominalController@destroy');
-
+Route::group(['middleware' => 'auth:api'],function(){
+    Route::get('pesantopup', 'Api\PesanTopUpController@index');
+    Route::get('pesantopup/{id}', 'Api\PesanTopUpController@show');
+    Route::get('berlangganan', 'Api\BerlanggananController@index');
+    Route::get('berlangganan/{id}', 'Api\BerlanggananController@show');
+    Route::get('tambahnominal', 'Api\TambahNominalController@index');
+    Route::get('tambahnominal/{id}', 'Api\TambahNominalController@show');
+    Route::get('logout','Api\AuthController@logout');
+    
+    Route::post('pesantopup', 'Api\PesanTopUpController@store');
+    Route::post('berlangganan', 'Api\BerlanggananController@store');
+    Route::post('tambahnominal', 'Api\TambahNominalController@store');
+    Route::put('pesantopup/{id}', 'Api\PesanTopUpController@update');
+    Route::put('berlangganan/{id}', 'Api\BerlanggananController@update');
+    Route::put('tambahnominal/{id}', 'Api\TambahNominalController@update');
+    
+    Route::delete('pesantopup/{id}', 'Api\PesanTopUpController@destroy');
+    Route::delete('berlangganan/{id}', 'Api\BerlanggananController@destroy');
+    Route::delete('tambahnominal/{id}', 'Api\TambahNominalController@destroy');
+    
+   
+});
