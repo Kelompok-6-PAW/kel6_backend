@@ -20,6 +20,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::post('register','Api\AuthController@register');
 Route::post('login','Api\AuthController@login');
+Route::get('email/verify/{id}', 'Api\VerificationApiController@verify')->name('verificationapi.verify');
+Route::get('email/resend', 'Api\VerificationApiController@resend')->name('verificationapi.resend');
 
 Route::group(['middleware' => 'auth:api'],function(){
     Route::get('pesantopup', 'Api\PesanTopUpController@index');
@@ -30,6 +32,7 @@ Route::group(['middleware' => 'auth:api'],function(){
     Route::get('tambahnominal/{id}', 'Api\TambahNominalController@show');
     Route::get('logout','Api\AuthController@logout');
     
+    Route::post('details', 'Api\AuthController@details')->middleware('verified');
     Route::post('pesantopup', 'Api\PesanTopUpController@store');
     Route::post('berlangganan', 'Api\BerlanggananController@store');
     Route::post('tambahnominal', 'Api\TambahNominalController@store');
