@@ -80,5 +80,59 @@ class AuthController extends Controller
     {
         $user = Auth::user();
         return response()->json(['success' => $user], $this-> successStatus);
+
+    }
+
+    public function detailUser()
+    {
+        $user = Auth::user();
+        return response([
+            'message' => 'Detail',
+            'user' => $user
+        ]);
+    }
+
+    public function update(Request $request){
+        $user = Auth::user();
+        if(is_null($user)){
+         return response([
+             'message' => 'User Not Found',
+             'data' => null
+         ],404);
+         }
+ 
+        $updateData = $request->all();
+        $validate = Validator::make($updateData, [
+            'username' => 'required',                
+            'jenisKelamin' => 'required',
+            'tglLahir' => 'required',                
+        ]);
+
+        if($validate->fails())
+        return response(['message' => $validate->errors()],400);
+
+        $user->username = $updateData['username'];
+        $user->jenisKelamin = $updateData['jenisKelamin'];
+        $user->tglLahir = $updateData['tglLahir'];            
+
+        if($request->img_user != null){
+            $user->img_user = $updateData['img_user'];
+        }
+
+        if($request->password != null){
+            $user->password = bcrypt($updateData['password']);
+        }
+ 
+        if($user->save()){
+             return response([
+                 'message' => 'Update User Success',
+                 'data' => $user,
+                 ],200);
+        }
+ 
+        return response([
+         'message' => 'Updated User Failed',
+         'data' => null,
+         ],400);
     }
 }

@@ -14,9 +14,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
 Route::post('register','Api\AuthController@register');
 Route::post('login','Api\AuthController@login');
@@ -30,9 +30,13 @@ Route::group(['middleware' => 'auth:api'],function(){
     Route::get('berlangganan/{id}', 'Api\BerlanggananController@show');
     Route::get('tambahnominal', 'Api\TambahNominalController@index');
     Route::get('tambahnominal/{id}', 'Api\TambahNominalController@show');
+    
+    Route::get('detailuser','Api\AuthController@detailUser');
+    Route::put('updateuser','Api\AuthController@update');
     Route::get('logout','Api\AuthController@logout');
     
     Route::post('details', 'Api\AuthController@details')->middleware('verified');
+    
     Route::post('pesantopup', 'Api\PesanTopUpController@store');
     Route::post('berlangganan', 'Api\BerlanggananController@store');
     Route::post('tambahnominal', 'Api\TambahNominalController@store');
