@@ -129,4 +129,28 @@ class PesanTopUpController extends Controller
         'data' => null,
         ],400);
    }
+
+   public function confirm($id){
+        $topup = PesanTopUp::find($id);
+        if(is_null($topup)){
+        return response([
+            'message' => 'Pesanan Top Up Not Found',
+            'data' => null
+        ],404);
+        }
+
+        $topup->konfirmasi = 'Sudah';
+        
+        if($topup->save()){
+            return response([
+                'message' => 'Confirm Pesanan Top Up Success',
+                'data' => $topup,
+                ],200);
+        }
+
+        return response([
+        'message' => 'Confirm Pesanan Top Up Failed',
+        'data' => null,
+        ],400);
+    }
 }
