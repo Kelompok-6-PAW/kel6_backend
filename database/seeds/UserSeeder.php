@@ -14,8 +14,8 @@ class UserSeeder extends Seeder
         DB::table('users')
                 ->insert([
                     'username' =>'Admin',
-                    'email' => 'tubespaw6@admin.com',
-                    'password' => '$2b$10$kmXx9PGzlPucwwiiypx/6.DHzSJOsfSL3hCy8OITjM.217fH9AfE6',//tubespaw6
+                    'email' => 'tubespawkel6@gmail.com',
+                    'password' => '$2b$10$m3TJIjRkcvvDMm/HxurQaOEUkjZtjNjhIQO7Lb9f6R2GOjFcdD3ym',//bisaselesai123
                     'jenisKelamin' => 'Pria',
                     'tglLahir' => '2001-04-10',
                     'created_at' => Carbon\Carbon::now(),
