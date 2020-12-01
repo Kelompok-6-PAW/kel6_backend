@@ -30,6 +30,8 @@ Route::group(['middleware' => 'auth:api'],function(){
     Route::get('berlangganan/{id}', 'Api\BerlanggananController@show');
     Route::get('tambahnominal', 'Api\TambahNominalController@index');
     Route::get('tambahnominal/{id}', 'Api\TambahNominalController@show');
+    Route::get('pesantopup/confirm/{id}', 'Api\PesanTopUpController@confirm');
+    Route::put('berlangganan/confirm/{id}', 'Api\BerlanggananController@confirm');
     
     Route::get('detailuser','Api\AuthController@detailUser');
     Route::put('updateuser','Api\AuthController@update');
@@ -43,8 +45,6 @@ Route::group(['middleware' => 'auth:api'],function(){
     Route::put('pesantopup/{id}', 'Api\PesanTopUpController@update');
     Route::put('berlangganan/{id}', 'Api\BerlanggananController@update');
     Route::put('tambahnominal/{id}', 'Api\TambahNominalController@update');
-    Route::put('pesantopup/confirm/{id}', 'Api\PesanTopUpController@confirm');
-    Route::put('berlangganan/confirm/{id}', 'Api\BerlanggananController@confirm');
     
     Route::delete('pesantopup/{id}', 'Api\PesanTopUpController@destroy');
     Route::delete('berlangganan/{id}', 'Api\BerlanggananController@destroy');
