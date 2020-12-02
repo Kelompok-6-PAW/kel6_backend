@@ -31,7 +31,7 @@ Route::group(['middleware' => 'auth:api'],function(){
     Route::get('tambahnominal', 'Api\TambahNominalController@index');
     Route::get('tambahnominal/{id}', 'Api\TambahNominalController@show');
     Route::get('pesantopup/confirm/{id}', 'Api\PesanTopUpController@confirm');
-    Route::put('berlangganan/confirm/{id}', 'Api\BerlanggananController@confirm');
+    Route::get('berlangganan/confirm/{id}', 'Api\BerlanggananController@confirm');
     
     Route::get('detailuser','Api\AuthController@detailUser');
     Route::put('updateuser','Api\AuthController@update');

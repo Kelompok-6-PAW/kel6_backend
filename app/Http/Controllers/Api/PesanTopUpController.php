@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Validator;
 use App\PesanTopUp;
+use App\TambahNominal;
 
 class PesanTopUpController extends Controller
 {
@@ -58,6 +59,12 @@ class PesanTopUpController extends Controller
        if($validate->fails())
             return response(['message' => $validate->errors()],400);
 
+       $tambahs = TambahNominal::where('topup',$request->nominal)->get();
+       foreach($tambahs as $t){
+            $t->stok = $t->stok - 1; 
+            $t->save();
+        }       
+
        $topup = PesanTopUp::create($storeData);
        return response([
         'message' => 'Add Pesanan Top Up Success',
@@ -74,6 +81,12 @@ class PesanTopUpController extends Controller
                 'data' => null
             ],404);
         }
+
+        $tambahs = TambahNominal::where('topup',$topup->nominal)->get();
+        foreach($tambahs as $t){
+                $t->stok = $t->stok + 1; 
+                $t->save();
+        }   
 
         if($topup->delete()){
             return response([

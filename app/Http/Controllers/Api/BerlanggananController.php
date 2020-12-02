@@ -103,9 +103,7 @@ class BerlanggananController extends Controller
         'email' => 'required|email:rfc,dns',
         'jenisLangganan' => 'required',
         'harga' => 'required|numeric',
-        'pembayaran' => 'required',
-        'uname' => 'required',
-        'konfirmasi' => 'required',     
+        'pembayaran' => 'required',         
        ]);
 
        if($validate->fails())
@@ -132,25 +130,25 @@ class BerlanggananController extends Controller
    }
 
    public function confirm($id){
-        $topup = PesanTopUp::find($id);
-        if(is_null($topup)){
+        $langganan = Berlangganan::find($id);
+        if(is_null($langganan)){
         return response([
-            'message' => 'Pesanan Top Up Not Found',
+            'message' => 'Pesanan Berlangganan Akun Not Found',
             'data' => null
         ],404);
         }
 
-        $topup->konfirmasi = 'Sudah';
+        $langganan->konfirmasi = 'Sudah';
         
-        if($topup->save()){
+        if($langganan->save()){
             return response([
-                'message' => 'Confirm Pesanan Top Up Success',
-                'data' => $topup,
+                'message' => 'Confirm Pesanan Berlangganan Akun Success',
+                'data' => $langganan,
                 ],200);
         }
 
         return response([
-        'message' => 'Confirm Pesanan Top Up Failed',
+        'message' => 'Confirm Pesanan Berlangganan Akun Failed',
         'data' => null,
         ],400);
     }

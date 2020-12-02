@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Auth\VerifiesEmails;
 use Illuminate\Auth\Events\Verified;
+use App\PesanTopUp;
+use App\Berlangganan;
 use App\User; //import model User
 use Validator;
 
@@ -101,9 +103,10 @@ class AuthController extends Controller
          ],404);
          }
  
-        $updateData = $request->all();
+        $updateData = $request->all();        
+
         $validate = Validator::make($updateData, [
-            'username' => 'required',                
+            'username' => 'required|unique:users',                
             'jenisKelamin' => 'required',
             'tglLahir' => 'required',                
         ]);
@@ -122,6 +125,17 @@ class AuthController extends Controller
         if($request->password != null){
             $user->password = bcrypt($updateData['password']);
         }
+
+        $topups = PesanTopUp::where('uname',$request->usernameLama)->get();
+        $langganans = Berlangganan::where('uname',$request->usernameLama)->get();        
+        foreach($topups as $topup){
+            $topup->uname = $updateData['username'];
+            $topup->save();
+        }
+        foreach($langganans as $langganan){
+            $langganan->uname = $updateData['username'];
+            $langganan->save();
+        }                  
  
         if($user->save()){
              return response([
