@@ -27,10 +27,10 @@ class AuthController extends Controller
             'jenisKelamin'=>'required',
             'tglLahir' => 'required'
         ]); //membuat rule validasi input
-        
+
         if($validate->fails())
             return response(['message'=> $validate->errors()],400); //retrn eror invalid input
-        
+
         $registrationData['password'] = bcrypt($request->password);//enkripsi password
         $user = User::create($registrationData);//membuat user baru
         $user->sendApiEmailVerificationNotification();
@@ -56,7 +56,7 @@ class AuthController extends Controller
 
         if(Auth::attempt($loginData)){
             $user = Auth::user();
-            
+
             if($user->email_verified_at !== NULL){
                 $token = $user->createToken('Authentication Token')->accessToken; //generate token
                 return response([
@@ -66,7 +66,8 @@ class AuthController extends Controller
                     'access_token' => $token
                 ]);
             }else{
-                return response()->json(['error'=>'Please Verify Email'], 401);
+                return response(['message' => 'Please Verify Email'],401);
+
             }
         }
     }
@@ -102,21 +103,30 @@ class AuthController extends Controller
              'data' => null
          ],404);
          }
- 
-        $updateData = $request->all();        
 
-        $validate = Validator::make($updateData, [
-            'username' => 'required|unique:users',                
-            'jenisKelamin' => 'required',
-            'tglLahir' => 'required',                
-        ]);
+        $updateData = $request->all();
+
+        if($updateData['username'] != $request->username ){
+            $validate = Validator::make($updateData, [
+                'username' => 'required|unique:users',
+                'jenisKelamin' => 'required',
+                'tglLahir' => 'required',
+            ]);
+            $user->username = $updateData['username'];
+
+        }else{
+            $validate = Validator::make($updateData, [
+                'jenisKelamin' => 'required',
+                'tglLahir' => 'required',
+            ]);
+        }
 
         if($validate->fails())
         return response(['message' => $validate->errors()],400);
 
-        $user->username = $updateData['username'];
+
         $user->jenisKelamin = $updateData['jenisKelamin'];
-        $user->tglLahir = $updateData['tglLahir'];            
+        $user->tglLahir = $updateData['tglLahir'];
 
         if($request->img_user != null){
             $user->img_user = $updateData['img_user'];
@@ -127,7 +137,7 @@ class AuthController extends Controller
         }
 
         $topups = PesanTopUp::where('uname',$request->usernameLama)->get();
-        $langganans = Berlangganan::where('uname',$request->usernameLama)->get();        
+        $langganans = Berlangganan::where('uname',$request->usernameLama)->get();
         foreach($topups as $topup){
             $topup->uname = $updateData['username'];
             $topup->save();
@@ -135,15 +145,15 @@ class AuthController extends Controller
         foreach($langganans as $langganan){
             $langganan->uname = $updateData['username'];
             $langganan->save();
-        }                  
- 
+        }
+
         if($user->save()){
              return response([
                  'message' => 'Update User Success',
                  'data' => $user,
                  ],200);
         }
- 
+
         return response([
          'message' => 'Updated User Failed',
          'data' => null,
