@@ -52,9 +52,26 @@ class TambahNominalController extends Controller
            'harga' => 'required|numeric',
            'stok' => 'required|numeric',           
        ]);
-
+        
        if($validate->fails())
             return response(['message' => $validate->errors()],400);
+
+       $nominals = TambahNominal::all();
+       foreach($nominals as $nom){
+            if ($nom->topup == $storeData['topup'] && $nom->harga == $storeData['harga']) {
+                $nom->stok = $nom->stok + $storeData['stok'];
+                if($nom->save()){
+                    return response([
+                        'message' => 'Update Stok Top Up Success',
+                        'data' => $nom,
+                        ],200);
+               }
+            }else if ($nom->topup == $storeData['topup'] && $nom->harga != $storeData['harga']) {
+                return response([
+                    'message' => 'Top Up same but Harga different',                    
+                ],400);               
+            }                
+        }
 
        $nominal = TambahNominal::create($storeData);
        return response([

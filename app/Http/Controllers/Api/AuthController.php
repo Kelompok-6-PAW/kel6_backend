@@ -106,7 +106,7 @@ class AuthController extends Controller
 
         $updateData = $request->all();
 
-        if($updateData['username'] != $request->username ){
+        if($updateData['username'] != $user->username ){
             $validate = Validator::make($updateData, [
                 'username' => 'required|unique:users',
                 'jenisKelamin' => 'required',
